@@ -1,0 +1,11 @@
+# nix
+env/
+**/result*
+
+# direnv
+**/.direnv
+/env
+.envrc.local
+
+# qemu
+*.qcow2
