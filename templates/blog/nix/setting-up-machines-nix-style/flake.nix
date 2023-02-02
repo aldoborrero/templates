@@ -41,18 +41,24 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-22.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    impermanence.url = "github:nix-community/impermanence";
   };
 
   outputs = inputs @ {
     flake-parts,
     flake-root,
+    home-manager,
     mission-control,
     nixpkgs,
     treefmt-nix,
     ...
   }: let
     # Use our custom lib enhanced with nixpkgs and hm one
-    lib = import ./nix/lib {lib = nixpkgs.lib;} // nixpkgs.lib;
+    lib = import ./nix/lib {lib = nixpkgs.lib;} // nixpkgs.lib // home-manager.lib;
   in
     (flake-parts.lib.evalFlakeModule
       {
@@ -62,6 +68,14 @@
       {
         debug = true;
         imports = [
+          (_: {
+            perSystem = {inputs', ...}: {
+              # make pkgs available to all `perSystem` functions
+              _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
+              # make custom lib available to all `perSystem` functions
+              _module.args.lib = lib;
+            };
+          })
           treefmt-nix.flakeModule
           flake-root.flakeModule
           mission-control.flakeModule
@@ -69,12 +83,6 @@
           ./nixos
         ];
         systems = ["x86_64-linux"];
-        perSystem = {inputs', ...}: {
-          # make pkgs available to all `perSystem` functions
-          _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
-          # make custom lib available to all `perSystem` functions
-          _module.args.lib = lib;
-        };
       })
     .config
     .flake;

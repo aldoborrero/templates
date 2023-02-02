@@ -35,6 +35,7 @@
     {
       _module.args.self = self;
       _module.args.inputs = inputs;
+      _module.args.lib = lib;
     }
     # load common modules
     ({...}: {

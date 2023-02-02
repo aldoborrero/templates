@@ -4,9 +4,11 @@
   in {
     attrs = importLib ./attrs.nix;
     importers = importLib ./importers.nix;
+    options = importLib ./options.nix;
 
     inherit (self.attrs) mergeAny;
     inherit (self.importers) rakeLeaves flattenTree;
+    inherit (self.options) mkEnableOpt' mkOpt mkOptStr mkBoolOpt;
   };
 in
   lib.makeExtensible mkLib
