@@ -1,8 +1,4 @@
-{
-  self,
-  lib,
-  ...
-}: let
+lib: let
   inherit
     (builtins)
     removeAttrs

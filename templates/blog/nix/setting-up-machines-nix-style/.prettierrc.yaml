@@ -1,7 +1,0 @@
-# Default settings will be applied by .editorconfig
-editorconfig: true
-
-# Extra settings
-singleQuote: true
-trailingComma: all
-useTabs: false

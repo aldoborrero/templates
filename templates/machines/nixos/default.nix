@@ -14,18 +14,20 @@
     nixpkgs
     ;
 
-  nixosSystem = args:
-    (lib.makeOverridable lib.nixosSystem)
-    (lib.recursiveUpdate args {
-      modules =
-        args.modules
-        ++ [
-          {
-            config.nixpkgs.pkgs = lib.mkDefault args.pkgs;
-            config.nixpkgs.localSystem = lib.mkDefault args.pkgs.stdenv.hostPlatform;
-          }
-        ];
-    });
+  nixosSystem = with lib;
+    args:
+      (makeOverridable lib.nixosSystem)
+      (recursiveUpdate args {
+        modules =
+          args.modules
+          ++ [
+            {
+              config.nixpkgs.pkgs = mkDefault args.pkgs;
+              config.nixpkgs.localSystem = mkDefault args.pkgs.stdenv.hostPlatform;
+            }
+          ];
+        specialArgs = {inherit lib;};
+      });
 
   hosts = lib.rakeLeaves ./hosts;
   modules = lib.rakeLeaves ./modules;
@@ -35,10 +37,10 @@
     {
       _module.args.self = self;
       _module.args.inputs = inputs;
-      _module.args.lib = lib;
     }
+
     # load common modules
-    ({...}: {
+    {
       imports = [
         impermanence.nixosModules.impermanence
         disko.nixosModules.disko
@@ -51,11 +53,10 @@
         modules.server
         modules.tailscale
       ];
-    })
+    }
   ];
 
   pkgs.x86_64-linux = import nixpkgs {
-    inherit lib;
     system = "x86_64-linux";
     config.allowUnfree = true;
   };

@@ -2,7 +2,6 @@
   perSystem = {
     config,
     pkgs,
-    lib,
     ...
   }: {
     treefmt.config = {
@@ -13,7 +12,6 @@
         alejandra.enable = true;
         prettier.enable = true;
         shfmt.enable = true;
-        terraform.enable = true;
       };
     };
 
