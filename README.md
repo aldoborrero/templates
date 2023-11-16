@@ -17,6 +17,12 @@ If you want to clone one of my templates, just run the following on your termina
 $ nix flake init -t github:aldoborrero/templates#project /path/to/your/project
 ```
 
+You can also add an alias to my flake:
+
+```console
+$ nix registry add templates-aldo github:aldoborrero/templates
+```
+
 ## License
 
 See [LICENSE](./LICENSE) for more information.
