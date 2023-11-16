@@ -1,0 +1,14 @@
+# Created by https://www.toptal.com/developers/gitignore/api/direnv,qemu
+# Edit at https://www.toptal.com/developers/gitignore?templates=direnv,qemu
+
+### direnv ###
+.direnv
+
+### nix ###
+result*
+repl-result-*
+
+### qemu ###
+*.qcow2
+
+# End of https://www.toptal.com/developers/gitignore/api/direnv,qemu

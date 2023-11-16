@@ -1,4 +1,4 @@
-name: 'Update Flake Inputs ️❄️'
+name: 'Nix Update Flake Inputs'
 
 on:
   workflow_dispatch:

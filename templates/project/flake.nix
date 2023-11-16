@@ -45,7 +45,6 @@
   };
 
   outputs = inputs @ {
-    self,
     flake-parts,
     haumea,
     nixpkgs,
@@ -87,20 +86,23 @@
           pkgs = lib.nix.mkNixpkgs {
             inherit system;
             inherit (inputs) nixpkgs;
-            overlays = [(final: _: {
-              devour-flake = final.callPackage inputs.devour-flake {};
-            })];
+            overlays = [
+              (final: _: {
+                devour-flake = final.callPackage inputs.devour-flake {};
+              })
+            ];
           };
         };
 
         # packages
         packages = {
-          mdformat-custom = (with pkgs.python311Packages; mdformat.withPlugins [
-            mdformat-footnote
-            mdformat-frontmatter
-            mdformat-gfm
-            mdformat-simple-breaks
-          ]);
+          mdformat-custom = with pkgs.python311Packages;
+            mdformat.withPlugins [
+              mdformat-footnote
+              mdformat-frontmatter
+              mdformat-gfm
+              mdformat-simple-breaks
+            ];
         };
 
         # devshells
@@ -140,25 +142,25 @@
           };
           settings.formatter = {
             deno.excludes = ["*.md"];
-            mdformat.package = self'.packages.mdformat-custom;
+            mdformat.command = lib.mkDefault self'.packages.mdformat-custom;
           };
         };
 
         # checks
         checks = {
           nix-build-all = pkgs.writeShellApplication {
-          name = "nix-build-all";
-          runtimeInputs = [
-            pkgs.nix
-            pkgs.devour-flake
-          ];
-          text = ''
-            # Make sure that flake.lock is sync
-            nix flake lock --no-update-lock-file
+            name = "nix-build-all";
+            runtimeInputs = [
+              pkgs.nix
+              pkgs.devour-flake
+            ];
+            text = ''
+              # Make sure that flake.lock is sync
+              nix flake lock --no-update-lock-file
 
-            # Do a full nix build (all outputs)
-            devour-flake . "$@"
-          '';
+              # Do a full nix build (all outputs)
+              devour-flake . "$@"
+            '';
           };
         };
       };
