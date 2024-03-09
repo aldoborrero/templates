@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "python-project"
+version = "0.1.0"
+description = ""
+authors = ["Aldo Borrero <82811+aldoborrero@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.black]
+line-length = 120
+target-version = ['py312']
+
+[tool.ruff]
+fix = true
+select = ['E', 'F', 'I', 'N']
+ignore = ['E501']
+
+[tool.ruff.isort]
+force-sort-within-sections = true
+no-lines-before = ["local-folder"]
+known-first-party = ["python_project"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
