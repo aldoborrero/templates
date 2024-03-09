@@ -96,20 +96,20 @@
 
         # packages
         packages = {
-          mdformat-custom = with pkgs.python311Packages;
-            mdformat.withPlugins [
+          mdformat-custom = pkgs.mdformat.withPlugins (p:
+            with p; [
               mdformat-footnote
               mdformat-frontmatter
               mdformat-gfm
               mdformat-simple-breaks
-            ];
+            ]);
         };
 
         # devshells
         devshells.default = {
           name = "python-project";
           packages = with pkgs; [
-            python311
+            python312
             poetry
           ];
           commands = [
