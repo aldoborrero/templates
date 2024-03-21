@@ -1,12 +1,19 @@
-[tool.poetry]
+[project]
 name = "python-project"
 version = "0.1.0"
-description = ""
-authors = ["Aldo Borrero <82811+aldoborrero@users.noreply.github.com>"]
+description = "My awesome project"
+license = "MIT"
+authors = [
+  { name = "Aldo Borrero", email = "82811+aldoborrero@users.noreply.github.com" },
+]
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.12"
+dependencies = []
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Topic :: Utilities",
+  "Intended Audience :: Developers",
+]
 
 [tool.black]
 line-length = 120
